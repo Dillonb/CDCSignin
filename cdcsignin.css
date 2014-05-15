@@ -1,0 +1,31 @@
+.jumbotron {
+    font-family: Lato, 'Helvetica Neue', Arial, Helvetica, Geneva, sans-serif;
+    background-color:rgb(98, 133, 91);
+    color:rgb(233, 233, 233);
+    font-weight:100;
+    text-align:center;
+}
+.signinform {
+    max-width: 1000px;
+}
+.signinform .form-group .col-sm-4 {
+    text-align:right;
+    font-weight:900;
+}
+.signinform div.form-group.required .col-sm-4 textarea,
+.signinform div.form-group.required .col-sm-4 input {
+    border-color:#8a6d3b;
+    border-width:0.15em;
+}
+b.requiredcolor {
+    color:#8a6d3b;
+}
+textarea {
+    resize:none;
+}
+.has-error .col-sm-4 {
+    font-size:20px;
+}
+.formerrors {
+    display:none;
+}

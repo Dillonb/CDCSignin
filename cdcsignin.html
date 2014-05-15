@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CDC Sign-In</title>
+    <script src="bower_components/jquery/dist/jquery.min.js"></script>
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="cdcsignin.css">
+    <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <link href='http://fonts.googleapis.com/css?family=Lato:100' rel='stylesheet' type='text/css'>
+    <script src="cdcsignin.js"> </script>
+</head>
+<body>
+    <!-- Modals -->
+
+    <div class="modal fade" id="modalSubmitSuccess" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <!--<div class="modal-header">-->
+                    <!--<h4 class="modal-title">Submit Success</h4>-->
+                <!--</div>-->
+                <div class="modal-body">
+                    <h3>Thank you for your submission.</h3>
+                    <h3>The next available Tech will be with you shortly.</h2>
+                    <a class="btn btn-default btn-block btn-success" onClick="closeModal();">Close</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="jumbotron">
+        <img src="https://helpline.w3.uvm.edu/wp-content/uploads/2013/11/wp-logoShadow-300x123.png">
+        <h1>Computer Depot Clinic Sign-In</h1>
+    </div>
+    <div class="container">
+        <div class="page-header">
+            <h3>Welcome to the Computer Depot Clinic. Please sign in by filling out the form below.</h3>
+            <h4>All fields except NetID are required.</h4>
+        </div>
+        <div class="alert alert-danger formerrors"></div>
+        <form role="form" action="#" class="form-horizontal signinform container">
+            <!-- NetID -->
+            <div class="form-group">
+                <div class="col-sm-4">
+                    <label class="control-label" for="inputNetid">UVM NetID</label>
+                </div>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control input-lg" id="inputNetid" name="netid">
+                </div>
+            </div>
+            <!-- First Name -->
+            <div class="form-group required">
+                <div class="col-sm-4">
+                    <label class="control-label" for="inputFirstName">First Name</label>
+                </div>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control input-lg" id="inputFirstName" name="firstname">
+                </div>
+            </div>
+            <!-- Last Name -->
+            <div class="form-group required">
+                <div class="col-sm-4">
+                    <label class="control-label" for="inputLastName">Last Name</label>
+                </div>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control input-lg" id="inputLastName" name="lastname">
+                </div>
+            </div>
+            <!-- Contact Phone -->
+            <div class="form-group required">
+                <div class="col-sm-4">
+                    <label class="control-label" for="inputContactPhone">Phone number to reach you (with area code)</label>
+                </div>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control input-lg" id="inputContactPhone" name="phone">
+                </div>
+            </div>
+            <!-- Email address -->
+            <div class="form-group required">
+                <div class="col-sm-4">
+                    <label class="control-label" for="inputEmail">Email Address</label>
+                </div>
+                <div class="col-sm-8">
+                    <input type="email" class="form-control input-lg" id="inputEmail" name="email">
+                </div>
+            </div>
+            <!-- Short Description -->
+            <div class="form-group required">
+                <div class="col-sm-4">
+                    <label class="control-label" for="inputDescription">Short Description of the Computer Problem</label>
+                </div>
+                <div class="col-sm-8">
+                    <textarea class="form-control input-lg" id="inputDescription" rows="3" name="description"></textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-4"></div>
+                <div class="col-sm-8">
+                    <a class="btn btn-default btn-lg" onClick="processForm();">Submit</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
