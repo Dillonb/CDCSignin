@@ -1,5 +1,6 @@
 function processForm()
 {
+    $(".formerrors").css("display","none");
     var has_errors = false;
 
     var netid = $("#inputNetid");
