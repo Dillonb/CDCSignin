@@ -1,3 +1,16 @@
+function initialize()
+{
+    $('#modalSubmitSuccess').on('hidden.bs.modal', function ()
+    {
+        $(".signinform").trigger("reset");
+        window.clearTimeout($("#modalSubmitSuccess").closeTimeout);
+    });
+}
+function closeModal()
+{
+    alert("HELLO");
+    $("#modalSubmitSuccess").modal("toggle");
+}
 function processForm()
 {
     $(".formerrors").css("display","none");
@@ -35,7 +48,8 @@ function processForm()
             data:formData,
             success: function(data)
                     {
-                        alert("Submitted.");
+                        alert("Setting close timeout.");
+                        $("#modalSubmitSuccess").closeTimeout = window.setTimeout(function(){ alert("testing."); },10);
                     }
         });
         $("#modalSubmitSuccess").modal();
@@ -65,9 +79,4 @@ function processRequiredField(field)
         // Get the textual name of the failed field
         return f.parent().parent().first().first().text();
     }
-}
-function closeModal()
-{
-    $("#modalSubmitSuccess").modal("toggle");
-    $(".signinform").trigger("reset");
 }
