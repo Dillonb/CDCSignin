@@ -8,7 +8,6 @@ function initialize()
 }
 function closeModal()
 {
-    alert("HELLO");
     $("#modalSubmitSuccess").modal("toggle");
 }
 function processForm()
@@ -44,12 +43,15 @@ function processForm()
         var formData = $(".signinform").serialize();
         $.ajax({
             type:"POST",
-            url:"http://www.uvm.edu/~dbelivea/other/process_signin.php",
+            url:"process_signin.php",
             data:formData,
             success: function(data)
                     {
-                        alert("Setting close timeout.");
-                        $("#modalSubmitSuccess").closeTimeout = window.setTimeout(function(){ alert("testing."); },10);
+                        $("#modalSubmitSuccess").closeTimeout = window.setTimeout(closeModal,5000);
+                    },
+            error: function(xhr, ajaxOptions, thrownError)
+                    {
+                        alert(thrownError);
                     }
         });
         $("#modalSubmitSuccess").modal();

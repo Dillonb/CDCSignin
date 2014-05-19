@@ -29,3 +29,6 @@ textarea {
 .formerrors {
     display:none;
 }
+div.page-header {
+    margin-top:-20px;
+}
