@@ -9,8 +9,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
     $description = htmlentities($_POST['description'],ENT_QUOTES);
 
     // Send email
-    //$to = "cdcdebug@dillonbeliveau.com";
-    $to = "cdclinic@uvm.edu";
+    $to = "cdcdebug@dillonbeliveau.com";
+    //$to = "cdclinic@uvm.edu";
     $subject = $firstname." ".$lastname.": ".$description;
     $message  = "<html><head><title>Confirmation</title></head><body><p>Sign-in form filled out: ";
     $message .= date("D, M jS, Y g:i:s A")."</p>";
