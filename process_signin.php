@@ -1,8 +1,6 @@
 <?php
 if ($_SERVER['REQUEST_METHOD'] === 'POST')
 {
-    file_put_contents("signins.txt","Data:".print_r($_POST,true)."\n",FILE_APPEND);
-
     $netid = htmlentities($_POST['netid'],ENT_QUOTES);
     $firstname = htmlentities($_POST['firstname'],ENT_QUOTES);
     $lastname = htmlentities($_POST['lastname'],ENT_QUOTES);
