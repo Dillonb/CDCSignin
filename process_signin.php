@@ -1,6 +1,7 @@
 <?php
 if ($_SERVER['REQUEST_METHOD'] === 'POST')
 {
+    //file_put_contents("signins.txt","Data: ".print_r($_POST,true)."\n",FILE_APPEND);
     $netid = htmlentities($_POST['netid'],ENT_QUOTES);
     $firstname = htmlentities($_POST['firstname'],ENT_QUOTES);
     $lastname = htmlentities($_POST['lastname'],ENT_QUOTES);
@@ -9,8 +10,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
     $description = htmlentities($_POST['description'],ENT_QUOTES);
 
     // Send email
-    $to = "cdcdebug@dillonbeliveau.com";
-    //$to = "cdclinic@uvm.edu";
+    //$to = "cdcdebug@dillonbeliveau.com";
+    $to = "cdclinic@uvm.edu";
     $subject = $firstname." ".$lastname.": ".$description;
     $message  = "<html><head><title>Confirmation</title></head><body><p>Sign-in form filled out: ";
     $message .= date("D, M jS, Y g:i:s A")."</p>";
@@ -28,6 +29,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
 
     // And finally send it.
     $blnMail=mail($to,$subject,$message,$headers);
+    //if ($blnMail)
+    //{
+        //file_put_contents("signins.txt","MESSAGE ACCEPTED FOR DELIVERY",FILE_APPEND);
+    //}
+    //else
+    //{
+        //file_put_contents("signins.txt","Error sending email.",FILE_APPEND);
+    //}
 }
 else
 {

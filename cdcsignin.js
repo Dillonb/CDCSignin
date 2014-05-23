@@ -51,7 +51,7 @@ function processForm()
                     },
             error: function(xhr, ajaxOptions, thrownError)
                     {
-                        alert(thrownError);
+                        alert("ERROR: " + thrownError);
                     }
         });
         $("#modalSubmitSuccess").modal();
