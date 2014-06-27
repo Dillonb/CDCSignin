@@ -20,7 +20,7 @@
 <body>
     <!-- Modals -->
 
-    <div class="modal fade" id="modalSubmitSuccess" role="dialog">
+    <div class="modal fade" id="modalSubmitSuccess" role="dialog" data-backdrop="static" data-keyboard="false">
         <div class="modal-dialog">
             <div class="modal-content">
                 <!--<div class="modal-header">-->
@@ -29,7 +29,8 @@
                 <div class="modal-body">
                     <h3>Thank you for your submission.</h3>
                     <h3>The next available Tech will be with you shortly.</h3>
-                    <a class="btn btn-default btn-block btn-success" onClick="closeModal();">Close</a>
+                    <a class="btn btn-default btn-block btn-success" id="btnClose" onClick="closeModal();">Close</a>
+                    <a class="btn btn-default btn-block btn-info" id="btnCloseLoading">Sending information, please wait...</a>
                 </div>
             </div>
         </div>

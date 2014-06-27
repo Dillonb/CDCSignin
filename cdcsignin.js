@@ -8,7 +8,10 @@ function initialize()
 }
 function closeModal()
 {
-    $("#modalSubmitSuccess").modal("toggle");
+    $("#modalSubmitSuccess").modal("hide");
+    // Ensure that everything is all set for real
+    $('body').removeClass("modal-open");
+    $('.modal-backdrop').remove();
 }
 function processForm()
 {
@@ -47,6 +50,8 @@ function processForm()
             data:formData,
             success: function(data)
                     {
+                        $("#btnClose").css("display","block");
+                        $("#btnCloseLoading").css("display","none");
                         $("#modalSubmitSuccess").closeTimeout = window.setTimeout(closeModal,5000);
                     },
             error: function(xhr, ajaxOptions, thrownError)
@@ -54,6 +59,8 @@ function processForm()
                         alert("ERROR: " + thrownError);
                     }
         });
+        $("#btnClose").css("display","none");
+        $("#btnCloseLoading").css("display","block");
         $("#modalSubmitSuccess").modal();
     }
 }

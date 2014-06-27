@@ -33,3 +33,7 @@ textarea {
 div.page-header {
     margin-top:-20px;
 }
+
+#btnClose {
+    display:none;
+}
