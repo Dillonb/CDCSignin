@@ -1,4 +1,5 @@
 <?php
+require_once("UVMLdap.php");
 if ($_SERVER['REQUEST_METHOD'] === 'POST')
 {
     //file_put_contents("signins.txt","Data: ".print_r($_POST,true)."\n",FILE_APPEND);
@@ -21,12 +22,54 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
     $message .= "<p>Phone Number: ".$phone."</p>";
     $message .= "<p>Email Address: ".$email."</p>";
     $message .= "<p>Description: ".$description."</p>";
-    $message .= " </body> </html>";
 
     $headers = "MIME-Version: 1.0\r\n";
     $headers .= "Content-type: text/html; charset=iso-8859-1\r\n";
-    $headers .= "From:(".$email.")\r\n";
+    if (!empty($netid))
+    {
+        // We have a netid, we can look them up in LDAP to get their first.last email address.
+        $ld = new UVMLdap;
+        $results = array();
 
+        // Authenticate to the ldap server
+        // Check if webauth has the user logged in
+        $bind = @ldap_bind($ld->ldap, $ld->dn, $ld->password);
+        if ($bind) {
+            $sanitized_netid = str_replace(array("(",")","*","|","="),"",$netid);
+            $result = @ldap_search($ld->ldap, $ld->ldap_base, $ld->makeFilter("uid","=",$sanitized_netid));
+            if ($result) {
+                $entries = ldap_get_entries($ld->ldap, $result);
+                foreach ($entries as $key => $entry)
+                {
+                if ($key === "count")
+                    continue;
+                $entry["from_filter"] = $filter[0];
+                if (isset($filter[2]))
+                {
+                    $entry["filter_field"] = $filter[2];
+                }
+                $results[] = $entry;
+                }
+                $headers .= "From:".$results[0]["mail"]["0"]."\r\n";
+            }
+            else
+            {
+                $message .= "<p>No result returned for ".$netid." in directory.</p>";
+                $headers .= "From:(".$email.")\r\n";
+            }
+            // Data stored in $results.
+            //$message .= "<p><pre>".print_r($results,1)."</pre></p>";
+        } else { // ldap_bind failed
+            $headers .= "From:(".$email.")\r\n";
+            $message .= "<p>ldap_bind failed, unable to look up user in the directory.</p>";
+        }
+    }
+    else
+    {
+        $headers .= "From:(".$email.")\r\n";
+    }
+
+    $message .= " </body> </html>";
     // And finally send it.
     $blnMail=mail($to,$subject,$message,$headers);
     //if ($blnMail)
