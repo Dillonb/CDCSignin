@@ -39,18 +39,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
             $result = @ldap_search($ld->ldap, $ld->ldap_base, $ld->makeFilter("uid","=",$sanitized_netid));
             if ($result) {
                 $entries = ldap_get_entries($ld->ldap, $result);
-                foreach ($entries as $key => $entry)
+                if (count($entries) == 0)
                 {
-                if ($key === "count")
-                    continue;
-                $entry["from_filter"] = $filter[0];
-                if (isset($filter[2]))
+                    foreach ($entries as $key => $entry)
+                    {
+                        if ($key === "count")
+                            continue;
+                        $entry["from_filter"] = $filter[0];
+                        if (isset($filter[2]))
+                        {
+                            $entry["filter_field"] = $filter[2];
+                        }
+                        $results[] = $entry;
+                    }
+                    $headers .= "From:".$results[0]["mail"]["0"]."\r\n";
+                }
+                else
                 {
-                    $entry["filter_field"] = $filter[2];
+                    $message .= "<p>No result returned for ".$netid." in directory.</p>";
+                    $headers .= "From:(".$email.")\r\n";
                 }
-                $results[] = $entry;
-                }
-                $headers .= "From:".$results[0]["mail"]["0"]."\r\n";
             }
             else
             {
