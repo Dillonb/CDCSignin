@@ -1,5 +1,10 @@
 <?php
 require_once("UVMLdap.php");
+define(ROOT_PATH, dirname(__FILE__));
+function endsWith($haystack, $needle)
+{
+    return $needle === "" || substr($haystack, -strlen($needle)) == $needle;
+}
 if ($_SERVER['REQUEST_METHOD'] === 'POST')
 {
     //file_put_contents("signins.txt","Data: ".print_r($_POST,true)."\n",FILE_APPEND);
@@ -10,9 +15,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
     $email = htmlentities($_POST['email'],ENT_QUOTES);
     $description = htmlentities($_POST['description'],ENT_QUOTES);
 
-    // Send email
-    //$to = "cdcdebug@dillonbeliveau.com";
-    $to = "cdclinic@uvm.edu";
+    // Send email - different address for different situations
+    if (endsWith(ROOT_PATH, "-dev"))
+    {
+        $to = "cdcdebug@dillonbeliveau.com";
+    }
+    else
+    {
+        $to = "cdclinic@uvm.edu";
+    }
     $subject = $firstname." ".$lastname.": ".$description;
     $message  = "<html><head><title>Confirmation</title></head><body><p>Sign-in form filled out: ";
     $message .= date("D, M jS, Y g:i:s A")."</p>";
@@ -36,33 +47,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
         $bind = @ldap_bind($ld->ldap, $ld->dn, $ld->password);
         if ($bind) {
             $sanitized_netid = str_replace(array("(",")","*","|","="),"",$netid);
-            $result = @ldap_search($ld->ldap, $ld->ldap_base, $ld->makeFilter("uid","=",$sanitized_netid));
+            $filter = $ld->makeFilter("uid","=",$sanitized_netid);
+            $result = @ldap_search($ld->ldap, $ld->ldap_base, $filter);
             if ($result) {
                 $entries = ldap_get_entries($ld->ldap, $result);
-                if (count($entries) == 0)
+                if (count($entries) != 0)
                 {
                     foreach ($entries as $key => $entry)
                     {
                         if ($key === "count")
                             continue;
-                        $entry["from_filter"] = $filter[0];
-                        if (isset($filter[2]))
-                        {
-                            $entry["filter_field"] = $filter[2];
-                        }
                         $results[] = $entry;
                     }
                     $headers .= "From:".$results[0]["mail"]["0"]."\r\n";
                 }
                 else
                 {
-                    $message .= "<p>No result returned for ".$netid." in directory.</p>";
+                    $message .= "<p>No result returned for ".$sanitized_netid." in directory.</p>";
                     $headers .= "From:(".$email.")\r\n";
                 }
             }
             else
             {
-                $message .= "<p>No result returned for ".$netid." in directory.</p>";
+                $message .= "<p>Invalid result returned from LDAP.</p>";
                 $headers .= "From:(".$email.")\r\n";
             }
             // Data stored in $results.
