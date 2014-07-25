@@ -18,10 +18,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
     // Send email - different address for different situations
     if (endsWith(ROOT_PATH, "-dev"))
     {
+        $debugging = true;
         $to = "cdcdebug@dillonbeliveau.com";
     }
     else
     {
+        $debugging = false;
         $to = "cdclinic@uvm.edu";
     }
     $subject = $firstname." ".$lastname.": ".$description;
@@ -51,7 +53,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
             $result = @ldap_search($ld->ldap, $ld->ldap_base, $filter);
             if ($result) {
                 $entries = ldap_get_entries($ld->ldap, $result);
-                if (count($entries) != 0)
+                if ($debugging)
+                {
+                    $message .= "<p><pre>".print_r($entries,1)."</pre></p>";
+                }
+                if (count($entries) == 0 || (array_key_exists("count", $entries) && $entries["count"] == 0))
+                {
+                    $message .= "<p>No result returned for ".$sanitized_netid." in directory.</p>";
+                    $headers .= "From:(".$email.")\r\n";
+                }
+                else
                 {
                     foreach ($entries as $key => $entry)
                     {
@@ -60,11 +71,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
                         $results[] = $entry;
                     }
                     $headers .= "From:".$results[0]["mail"]["0"]."\r\n";
-                }
-                else
-                {
-                    $message .= "<p>No result returned for ".$sanitized_netid." in directory.</p>";
-                    $headers .= "From:(".$email.")\r\n";
                 }
             }
             else
