@@ -37,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
     $message .= "<p>Description: ".$description."</p>";
 
     $headers = "MIME-Version: 1.0\r\n";
-    $headers .= "Content-type: text/html; charset=iso-8859-1\r\n";
+    $headers .= "Content-type: text/html; charset=UTF-8\r\n";
     if (!empty($netid))
     {
         // We have a netid, we can look them up in LDAP to get their first.last email address.
