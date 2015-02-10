@@ -25,7 +25,7 @@ function processForm()
     var email = $("#inputEmail");
     var description = $("#inputDescription");
 
-    var requiredFields = ["inputFirstName","inputLastName","inputContactPhone","inputEmail","inputDescription"];
+    var requiredFields = ["inputFirstName","inputLastName","inputContactPhone","inputEmail","inputDescription","inputTosAgree"];
     var errorFields = []
     for (var i = 0; i < requiredFields.length; i++)
     {
@@ -68,15 +68,28 @@ function processRequiredField(field)
 {
     errors = false;
     f = $("#"+field);
-    if (!f.val())
+
+    if (field == "inputTosAgree") {
+        if (!f.is(':checked')) {
+            errors = true;
+        }
+    }
+    else {
+        if (!f.val()) {
+            errors = true;
+        }
+        else {
+            errors = false;
+        }
+    }
+
+    if (errors)
     {
-        errors = true;
         f.parent().parent().addClass("has-error");
     }
     else
     {
         f.parent().parent().removeClass("has-error");
-        errors = false;
     }
     // Do special error checking for certain fields
     // Phone number (regex?)

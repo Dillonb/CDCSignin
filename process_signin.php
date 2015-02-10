@@ -7,6 +7,35 @@ function endsWith($haystack, $needle)
 }
 if ($_SERVER['REQUEST_METHOD'] === 'POST')
 {
+
+    $tos_email_headers = "MIME-Version: 1.0\r\n";
+    $tos_email_headers .= "Content-type: text/html; charset=UTF-8\r\n";
+    $tos_email_headers .= "From:(helpline@uvm.edu)";
+    $tos_email_subject = "Thank you for visiting the UVM Tech Team";
+    $tos_email_body = <<<EOT
+<p>
+    For your records, here is a copy of our Customer Terms of Service. You have not been added to an email list, this is a one time communication. Your provided email address will only be used to contact you in regards to the status of your machine while it is in the Computer Carry-in Clinic or Hardware center for repair
+</p>
+<hr>
+<p>
+    <strong>
+        Tech Team and Client Services Hardware terms of service agreement:
+    </strong>
+</p>
+<p>
+    While Client Services and the Tech Team Computer Carry-in Clinic take data backup and loss-prevention very seriously, neither entity is held responsible for any data loss that may occur once a machine is checked in for service.  Reasonable effort will be made to minimize the chance of loss and, if possible, the Customer will be given the option to back up their data.
+</p>
+<p>
+    The Tech Team and Client Services are not responsible for any other hardware failure that may occur while the machine is in our possession during normal use and repair.  The Tech Team and Client Services do their best to identify failed components, but other parts may fail or manifest as failed during the repair process. The Tech Team and/or Client Services will notify the Customer of their options, but cannot be held responsible for repairing or replacing failed components at the University’s expense.
+</p>
+<p>
+    The Tech Team and Client Services takes precautionary steps to protect any computer equipment left in our care from loss or damage, even during transit between repair locations.  The Customer agrees not to hold the Tech Team or Client Services liable for loss, theft, or damage to the computer or any of the equipment/accessories left with the computer.
+</p>
+<p>
+    The Tech Team and Client Services requires all equipment be picked up from our repair center within 30 days of notification of repair completion.  The Tech Team or Client Services will use Customer-supplied contact information to make repeated attempts to contact the Customer, roughly once per week.  Any equipment left past 30 days, without prior written agreement, will incur storage charges ($5 per business day) that will be added to the bill and payable on machine pickup.  If the Customer cannot be reached or fails to pick up the equipment in question within 45 total days after the initial notification for pickup, the equipment will be considered abandoned.  Once equipment is considered abandoned, it becomes the property of Client Services, and the University, to be used as spare parts or electronic waste for disposal/recycling.
+</p>
+EOT;
+
     //file_put_contents("signins.txt","Data: ".print_r($_POST,true)."\n",FILE_APPEND);
     $netid = htmlentities($_POST['netid'],ENT_QUOTES);
     $firstname = htmlentities($_POST['firstname'],ENT_QUOTES);
@@ -29,6 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
     $subject = $firstname." ".$lastname.": ".$description;
     $message  = "<html><head><title>Confirmation</title></head><body><p>Sign-in form filled out: ";
     $message .= date("D, M jS, Y g:i:s A")."</p>";
+    $message .= "<p><strong>Client has accepted terms of service.</strong></p>";
     $message .= "<p>Netid: ".$netid."</p>";
     $message .= "<p>First Name: ".$firstname."</p>";
     $message .= "<p>Last Name: ".$lastname."</p>";
@@ -93,6 +123,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
     $message .= " </body> </html>";
     // And finally send it.
     $blnMail=mail($to,$subject,$message,$headers);
+    // Send the TOS email as well
+    $tosMail = mail($email, $tos_email_subject, $tos_email_body, $tos_email_headers);
     //if ($blnMail)
     //{
         //file_put_contents("signins.txt","MESSAGE ACCEPTED FOR DELIVERY",FILE_APPEND);

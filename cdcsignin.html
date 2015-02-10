@@ -36,6 +36,41 @@
         </div>
     </div>
 
+    <div class="modal fade" id="modalTosView" role="dialog" data-backdrop="static">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Tech Team and Client Services Hardware terms of service agreement</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        <strong>
+                            Tech Team and Client Services Hardware terms of service agreement:
+                        </strong>
+                    </p>
+                    <p>
+                        While Client Services and the Tech Team Computer Carry-in Clinic take data backup and loss-prevention very seriously, neither entity is held responsible for any data loss that may occur once a machine is checked in for service.  Reasonable effort will be made to minimize the chance of loss and, if possible, the Customer will be given the option to back up their data.
+                    </p>
+                    <p>
+                        The Tech Team and Client Services are not responsible for any other hardware failure that may occur while the machine is in our possession during normal use and repair.  The Tech Team and Client Services do their best to identify failed components, but other parts may fail or manifest as failed during the repair process. The Tech Team and/or Client Services will notify the Customer of their options, but cannot be held responsible for repairing or replacing failed components at the University’s expense.
+                    </p>
+                    <p>
+                        The Tech Team and Client Services takes precautionary steps to protect any computer equipment left in our care from loss or damage, even during transit between repair locations.  The Customer agrees not to hold the Tech Team or Client Services liable for loss, theft, or damage to the computer or any of the equipment/accessories left with the computer.
+                    </p>
+                    <p>
+                        The Tech Team and Client Services requires all equipment be picked up from our repair center within 30 days of notification of repair completion.  The Tech Team or Client Services will use Customer-supplied contact information to make repeated attempts to contact the Customer, roughly once per week.  Any equipment left past 30 days, without prior written agreement, will incur storage charges ($5 per business day) that will be added to the bill and payable on machine pickup.  If the Customer cannot be reached or fails to pick up the equipment in question within 45 total days after the initial notification for pickup, the equipment will be considered abandoned.  Once equipment is considered abandoned, it becomes the property of Client Services, and the University, to be used as spare parts or electronic waste for disposal/recycling."
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn" data-dismiss="modal">Close</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
     <div class="jumbotron">
         <img src="techteam_logo3.png" alt="TechTeam Logo">
         <h1>Computer Depot Clinic Sign-In</h1>
@@ -99,6 +134,17 @@
                 </div>
                 <div class="col-sm-8">
                     <textarea class="form-control input-lg" id="inputDescription" rows="3" name="description"></textarea>
+                </div>
+            </div>
+            <div classs="form-group required">
+                <div class="col-sm-4">
+                </div>
+                <div class="col-sm-8">
+                    <p>
+                        <input type="checkbox" name="inputTosAgree" id="inputTosAgree">
+                        <label for="inputTosAgree">I agree to the <a id="toslink" data-toggle="modal" data-target="#modalTosView">Terms of service.</a></label>
+                        </input>
+                    </p>
                 </div>
             </div>
             <div class="form-group">
